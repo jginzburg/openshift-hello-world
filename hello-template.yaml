@@ -1,0 +1,118 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: hello-template
+objects:
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    labels:
+      app: ${PARAM_APP_NAME}
+    name: ${PARAM_APP_NAME}
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    labels:
+      app: ${PARAM_APP_NAME}
+    name: ${PARAM_APP_NAME}
+  spec:
+    runPolicy: Serial     
+    source: 
+      type: Binary
+    strategy: 
+      sourceStrategy:
+        from:
+          kind: ImageStreamTag
+          name: redhat-openjdk18-openshift:1.2
+          namespace: openshift
+    output: 
+      to:
+        kind: ImageStreamTag
+        name: ${PARAM_APP_NAME}:latest
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    labels:
+      app: ${PARAM_APP_NAME}
+    name: ${PARAM_APP_NAME}
+  spec:
+    selector:
+      deploymentConfig: ${PARAM_APP_NAME}
+    template: 
+      metadata:
+        labels:
+          deploymentConfig: ${PARAM_APP_NAME}
+          name: ${PARAM_APP_NAME}
+      spec:
+        containers:
+          - name: ${PARAM_APP_NAME}
+            env:
+              - name: TZ
+                value: America/Argentina/Buenos_Aires
+              - name: LANG_FILE
+                value: hello.es
+            image: ${PARAM_APP_NAME}:latest
+            ports:
+              - containerPort: 8080
+                protocol: TCP
+            readinessProbe:
+              failureThreshold: 3
+              httpGet:
+                path: /rest/hello
+                port: 8080
+                scheme: HTTP
+              initialDelaySeconds: 60
+              periodSeconds: 10
+              successThreshold: 1
+              timeoutSeconds: 20
+            livenessProbe:
+              failureThreshold: 3
+              httpGet:
+                path: /rest/hello
+                port: 8080
+                scheme: HTTP
+              initialDelaySeconds: 120
+              periodSeconds: 10
+              successThreshold: 1
+              timeoutSeconds: 20
+            resources:
+              limits:
+                cpu: 500m
+                memory: 300Mi
+              requests:
+                cpu: 500m
+                memory: 300Mi
+    triggers: []
+    replicas: 1 
+    strategy: 
+      type: Rolling
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: ${PARAM_APP_NAME}
+    name: ${PARAM_APP_NAME}
+  spec:
+    ports:
+      - port: 8080
+        protocol: TCP
+        targetPort: 8080
+    selector:
+      deploymentConfig: ${PARAM_APP_NAME}
+    sessionAffinity: None
+    type: ClusterIP
+- kind: ConfigMap
+  apiVersion: v1
+  metadata:
+    labels:
+      app: ${PARAM_APP_NAME}
+    name: ${PARAM_APP_NAME}
+  data:
+    hello.es: Hola desde OpenShift!
+    hello.en: Hello from OpenShift!
+parameters:
+- description: The application name
+  displayName: Application name
+  name: PARAM_APP_NAME
+  value: hello
+  required: true

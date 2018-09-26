@@ -11,14 +11,14 @@ objects:
   kind: ImageStream
   metadata:
     labels:
-      app: ${PARAM_APP_NAME}
-    name: ${PARAM_APP_NAME}
+      app: ${PARAM_APP}
+    name: ${PARAM_APP}
 - apiVersion: v1
   kind: BuildConfig
   metadata:
     labels:
-      app: ${PARAM_APP_NAME}
-    name: ${PARAM_APP_NAME}
+      app: ${PARAM_APP}
+    name: ${PARAM_APP}
   spec:
     runPolicy: Serial     
     source: 
@@ -32,30 +32,30 @@ objects:
     output: 
       to:
         kind: ImageStreamTag
-        name: ${PARAM_APP_NAME}:latest
+        name: ${PARAM_APP}:latest
 - apiVersion: v1
   kind: DeploymentConfig
   metadata:
     labels:
-      app: ${PARAM_APP_NAME}
-    name: ${PARAM_APP_NAME}
+      app: ${PARAM_APP}
+    name: ${PARAM_APP}
   spec:
     selector:
-      deploymentConfig: ${PARAM_APP_NAME}
+      deploymentConfig: ${PARAM_APP}
     template: 
       metadata:
         labels:
-          deploymentConfig: ${PARAM_APP_NAME}
-          name: ${PARAM_APP_NAME}
+          deploymentConfig: ${PARAM_APP}
+          name: ${PARAM_APP}
       spec:
         containers:
-          - name: ${PARAM_APP_NAME}
+          - name: ${PARAM_APP}
             env:
               - name: TZ
                 value: America/Argentina/Buenos_Aires
               - name: LANG_FILE
                 value: hello.es
-            image: ${PARAM_APP_NAME}:latest
+            image: ${PARAM_APP}:latest
             ports:
               - containerPort: 8080
                 protocol: TCP
@@ -94,29 +94,29 @@ objects:
   kind: Service
   metadata:
     labels:
-      app: ${PARAM_APP_NAME}
-    name: ${PARAM_APP_NAME}
+      app: ${PARAM_APP}
+    name: ${PARAM_APP}
   spec:
     ports:
       - port: 8080
         protocol: TCP
         targetPort: 8080
     selector:
-      deploymentConfig: ${PARAM_APP_NAME}
+      deploymentConfig: ${PARAM_APP}
     sessionAffinity: None
     type: ClusterIP
 - kind: ConfigMap
   apiVersion: v1
   metadata:
     labels:
-      app: ${PARAM_APP_NAME}
-    name: ${PARAM_APP_NAME}
+      app: ${PARAM_APP}
+    name: ${PARAM_APP}
   data:
     hello.es: Hola desde OpenShift!
     hello.en: Hello from OpenShift!
 parameters:
 - description: The application name
   displayName: Application name
-  name: PARAM_APP_NAME
+  name: PARAM_APP
   value: hello
   required: true

@@ -20,6 +20,8 @@ objects:
       app: ${PARAM_APP_NAME}
     name: ${PARAM_APP_NAME}
   spec:
+    selector:
+      deploymentConfig: ${PARAM_APP_NAME}
     runPolicy: Serial     
     source: 
       type: Binary

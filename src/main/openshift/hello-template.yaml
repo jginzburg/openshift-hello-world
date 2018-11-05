@@ -55,8 +55,11 @@ objects:
             env:
               - name: TZ
                 value: America/Argentina/Buenos_Aires
-              - name: LANG_FILE
-                value: hello.es
+              - name: HELLO_ENVIRONMENT
+                valueFrom:
+                  configMapKeyRef:
+                    name: hello-config
+                    key: hello.environment
             image: ${PARAM_IMAGE_NAME}:latest
             ports:
               - containerPort: 8080
@@ -107,15 +110,6 @@ objects:
       deploymentConfig: ${PARAM_APP_NAME}
     sessionAffinity: None
     type: ClusterIP
-- kind: ConfigMap
-  apiVersion: v1
-  metadata:
-    labels:
-      app: ${PARAM_APP_NAME}
-    name: ${PARAM_APP_NAME}
-  data:
-    hello.es: Hola desde OpenShift!
-    hello.en: Hello from OpenShift!
 parameters:
 - description: The application name
   displayName: Application name

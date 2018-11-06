@@ -51,14 +51,14 @@ objects:
           name: ${PARAM_APP_NAME}
       spec:
         containers:
-          - name: ${PARAM_APP_NAME}
+          - name: hello
             env:
               - name: TZ
                 value: America/Argentina/Buenos_Aires
               - name: HELLO_ENVIRONMENT
                 valueFrom:
                   configMapKeyRef:
-                    name: hello-config
+                    name: ${PARAM_APP_NAME}-config
                     key: hello.environment
             image: ${PARAM_IMAGE_NAME}:latest
             ports:
@@ -110,6 +110,12 @@ objects:
       deploymentConfig: ${PARAM_APP_NAME}
     sessionAffinity: None
     type: ClusterIP
+- apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: ${PARAM_APP_NAME}-config
+  data:
+    hello.environment: dev
 parameters:
 - description: The application name
   displayName: Application name

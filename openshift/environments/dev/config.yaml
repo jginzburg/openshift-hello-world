@@ -1,2 +1,16 @@
-data:
-  hello.environment: dev
+apiVersion: v1
+kind: Template
+metadata:
+  name: hello-config-template
+objects:
+- apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: ${PARAM_APP_NAME}-config
+  data:
+    hello.environment: dev
+parameters:
+- description: The name of the ConfigMap
+  displayName: ConfigMap Name
+  name: PARAM_APP_NAME
+  required: true

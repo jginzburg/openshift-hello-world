@@ -60,6 +60,11 @@ objects:
                   configMapKeyRef:
                     name: ${PARAM_APP_NAME}-config
                     key: hello.environment
+              - name: HELLO_ENVIRONMENT_2
+                valueFrom:
+                  configMapKeyRef:
+                    name: ${PARAM_APP_NAME}-config
+                    key: hello.environment2
             image: ${PARAM_IMAGE_NAME}:latest
             ports:
               - containerPort: 8080

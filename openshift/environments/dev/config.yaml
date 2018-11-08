@@ -9,7 +9,7 @@ objects:
     name: ${PARAM_APP_NAME}-config
   data:
     hello.environment: dev
-    hello.newVar: lala
+    hello.environment2: dev2
 parameters:
 - description: The name of the ConfigMap
   displayName: ConfigMap Name

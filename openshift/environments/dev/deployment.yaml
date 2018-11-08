@@ -1,5 +1,5 @@
 spec:
-  replicas: 2
+  replicas: 1
   containers:
     - readinessProbe:
         failureThreshold: 3

@@ -109,6 +109,18 @@ objects:
     name: ${PARAM_APP_NAME}-config
   data:
     hello.environment: dev
+- apiVersion: v1
+  kind: Route
+  metadata:
+    labels:
+      app: ${PARAM_APP_NAME}
+    name: ${PARAM_APP_NAME}
+  spec:
+    to:
+      kind: Service
+      name: ${PARAM_APP_NAME}
+      weight: 100
+    wildcardPolicy: None
 parameters:
 - description: The application name
   displayName: Application name

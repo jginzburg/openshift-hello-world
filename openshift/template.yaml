@@ -5,7 +5,7 @@ metadata:
   annotations:
     openshift.io/display-name: Hello World
     iconClass: fa fa-code
-    description: Template to generate Hello World application
+    description: Template to generate the Hello World application
 objects:
 - apiVersion: v1
   kind: ImageStream

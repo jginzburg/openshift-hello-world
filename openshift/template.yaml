@@ -10,8 +10,6 @@ objects:
 - apiVersion: v1
   kind: ImageStream
   metadata:
-    labels:
-      app: ${PARAM_APP_NAME}
     name: ${PARAM_IMAGE_NAME}
 - apiVersion: v1
   kind: BuildConfig

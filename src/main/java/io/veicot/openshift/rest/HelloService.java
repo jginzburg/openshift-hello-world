@@ -12,8 +12,8 @@ public class HelloService extends Application {
 	@GET
 	@Produces("text/plain")
 	public Response doGet() {
-		return Response.ok(String.format("%s (feature/2 - %s)",
-										 System.getenv("HELLO_STRING"),
+		return Response.ok(String.format("%s (feature/2 - %s)", 
+										 System.getenv("HELLO_STRING"), 
 										 System.getenv("HELLO_ENVIRONMENT"))).build();
 	}
 }

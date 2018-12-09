@@ -12,7 +12,7 @@ public class HelloService extends Application {
 	@GET
 	@Produces("text/plain")
 	public Response doGet() {
-		return Response.ok(String.format("Hello from OpenShift! (feature/2 - %s)",
+		return Response.ok(String.format("Hello from OpenShift! (develop - %s)",
 										 System.getenv("HELLO_ENVIRONMENT"))).build();
 	}
 }

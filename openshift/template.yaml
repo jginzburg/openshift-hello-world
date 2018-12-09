@@ -58,6 +58,11 @@ objects:
                   configMapKeyRef:
                     name: ${PARAM_APP_NAME}-config
                     key: hello.environment
+              - name: HELLO_STRING
+                valueFrom:
+                  configMapKeyRef:
+                    name: ${PARAM_APP_NAME}-config
+                    key: hello.string
             image: ${PARAM_IMAGE_NAME}:latest
             ports:
               - containerPort: 8080
@@ -114,6 +119,7 @@ objects:
     name: ${PARAM_APP_NAME}-config
   data:
     hello.environment: dev
+    hello.string: Hello from OpenShift!
 - apiVersion: v1
   kind: Route
   metadata:

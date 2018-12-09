@@ -1,1 +1,1 @@
-# openshift-hello-world
+# OpenShift Hello World

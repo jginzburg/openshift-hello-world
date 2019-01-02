@@ -1,4 +1,4 @@
-package io.veicot.openshift.rest;
+package com.redhat.openshift.rest;
 
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Application;

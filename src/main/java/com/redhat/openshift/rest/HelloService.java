@@ -12,7 +12,7 @@ public class HelloService extends Application {
 	@GET
 	@Produces("text/plain")
 	public Response doGet() {
-		return Response.ok(String.format("%s (release/1.0.0 - %s)", 
+		return Response.ok(String.format("%s (release/1.0.1 - %s)", 
 										 System.getenv("HELLO_STRING"), 
 										 System.getenv("HELLO_ENVIRONMENT"))).build();
 	}
